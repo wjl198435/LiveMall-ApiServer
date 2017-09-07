@@ -1,0 +1,17 @@
+启动 Redis 服务
+
+redis-server /etc/redis.conf
+
+src/redis-server redis.conf
+将 Redis 作为 Linux 服务随机启动
+
+vi /etc/rc.local, 加入代码：
+
+/root/install/redis-2.4.9/src/redis-server
+redis客户端连接
+
+src/redis-cli
+
+停止redis服务：
+
+src/redis-cli shutdown

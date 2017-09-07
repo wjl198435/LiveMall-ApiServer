@@ -1,0 +1,31 @@
+graph = JanusGraphFactory.open('conf/janusgraph-berkeleyje.properties')
+g = graph.traversal()
+m = graph.openManagement()
+m.makePropertyKey('name').dataType(String.class).cardinality(Cardinality.LIST).make()
+m.makePropertyKey('lang').dataType(String.class).cardinality(Cardinality.LIST).make()
+m.makePropertyKey('age').dataType(Integer.class).cardinality(Cardinality.LIST).make()
+m.commit()
+graph.io(IoCore.gryo()).readGraph('data/tinkerpop-modern.gio')
+graph.tx().commit()
+
+// Run a query -- note the planner warning recommending the use of an index
+g.V().has('name', 'lop')
+graph.tx().rollback()
+
+// Create an index
+m = graph.openManagement()
+m.buildIndex('names', Vertex.class).addKey(m.getPropertyKey('name')).buildCompositeIndex()
+m.commit()
+graph.tx().commit()
+
+// Block until the SchemaStatus transitions from INSTALLED to REGISTERED
+ManagementSystem.awaitGraphIndexStatus(graph, 'names').status(SchemaStatus.REGISTERED).call()
+
+// Reindex using JanusGraphManagement
+m = graph.openManagement()
+i = m.getGraphIndex('names')
+m.updateIndex(i, SchemaAction.REINDEX)
+m.commit()
+
+// Enable the index
+ManagementSystem.awaitGraphIndexStatus(graph, 'names').status(SchemaStatus.ENABLED).call()
