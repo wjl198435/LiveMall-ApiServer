@@ -1,20 +1,9 @@
-package Model.tinkerpop.register.user;
-
-import org.apache.tinkerpop.gremlin.process.traversal.Order;
-import org.apache.tinkerpop.gremlin.structure.Direction;
-import org.apache.tinkerpop.gremlin.structure.Property;
-//import org.janusgraph.core.*;
-//import org.janusgraph.core.schema.JanusGraphManagement;
-//import org.slf4j.LoggerFactory;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+package Model.tinkerpop.Dao.user.register;
 
 /**
- * Created by wjl198435 on 5/9/2017.
+ * Created by wjl198435 on 8/9/2017.
  */
-public  class schema {
-    private static final Logger LOGGER = LoggerFactory.getLogger(schema.class);
-
+public class WX_Register {
 
     /*******************用户注册标签******************************/
     static private final String labVertexUser = "wxUser";
@@ -53,5 +42,4 @@ public  class schema {
     static private final String province = "province";
     //微信用户登记所在城市
     static private final String city = "city";
-
 }
