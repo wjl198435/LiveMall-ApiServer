@@ -1,5 +1,7 @@
 package Controller;
 
+import Model.tinkerpop.Dao.user.register.WX_Register;
+import com.alibaba.fastjson.JSON;
 import com.haiwar.properties.GetProperties;
 import com.alibaba.fastjson.JSONObject;
 import org.slf4j.LoggerFactory;
@@ -35,9 +37,13 @@ public class wxRegisterUserController {
     @RequestMapping(value ="/mall/user/wxapp/register/complex",method=RequestMethod.POST)
     public @ResponseBody Map registerUserInfo(String encryptedData, String iv, String code) {
 
-        logger.info("code:"+code);
+        //logger.info("registerUserInfo: Enter!!!");
+
+       // logger.info("code:"+code);
 
         Map map = new HashMap();
+
+
 
         //登录凭证不能为空
         if (code == null || code.length() == 0) {
@@ -78,22 +84,33 @@ public class wxRegisterUserController {
         try {
             String result = AesCbcUtil.decrypt(encryptedData, session_key, iv, "UTF-8");
             if (null != result && result.length() > 0) {
-                map.put("status", 0);
-                map.put("id", 0);
-                map.put("msg", "注册成功");
+
 
                 //JSONObject userInfoJSON = JSONObject.fromObject(result);
                 JSONObject userInfoJSON = JSONObject.parseObject(result);
 
+                //logger.info("userInfoJSON:"+userInfoJSON.toJSONString());
+
+
+
                 Map userInfo = new HashMap();
-                userInfo.put("openId", userInfoJSON.get("openId"));
-                userInfo.put("nickName", userInfoJSON.get("nickName"));
-                userInfo.put("gender", userInfoJSON.get("gender"));
-                userInfo.put("city", userInfoJSON.get("city"));
-                userInfo.put("province", userInfoJSON.get("province"));
-                userInfo.put("country", userInfoJSON.get("country"));
-                userInfo.put("avatarUrl", userInfoJSON.get("avatarUrl"));
-                userInfo.put("unionId", userInfoJSON.get("unionId"));
+
+                userInfo.put(WX_Register.getOpenId(), userInfoJSON.get(WX_Register.getOpenId()));
+                userInfo.put(WX_Register.getNickName(), userInfoJSON.get(WX_Register.getNickName()));
+                userInfo.put(WX_Register.getGender(), userInfoJSON.get(WX_Register.getGender()));
+                userInfo.put(WX_Register.getCity(), userInfoJSON.get(WX_Register.getCity()));
+                userInfo.put(WX_Register.getProvince(), userInfoJSON.get(WX_Register.getProvince()));
+                userInfo.put(WX_Register.getCountry(), userInfoJSON.get(WX_Register.getCountry()));
+                userInfo.put(WX_Register.getAvatarUrl(), userInfoJSON.get(WX_Register.getAvatarUrl()));
+                userInfo.put(WX_Register.getUnionId(), userInfoJSON.get(WX_Register.getUnionId()));
+                userInfo.put(WX_Register.getTime(), System.currentTimeMillis());
+
+                JSONObject UserInfoJson =(JSONObject) JSON.toJSON(userInfo);
+
+                WX_Register.Register(UserInfoJson,map);
+
+//                 JSON.toJSON(userInfo);
+
                 map.put("userInfo", userInfo);
                 logger.info(map.toString());
                 return map;

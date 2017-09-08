@@ -1,5 +1,6 @@
 package Controller;
 
+import Model.tinkerpop.Dao.user.register.WX_Register;
 import com.haiwar.properties.GetProperties;
 import com.alibaba.fastjson.JSONObject;
 
@@ -45,6 +46,8 @@ public class wxLoginController {
 
         logger.info("code:"+code);
 
+        logger.info("decodeUserInfo: Enter!!!");
+
         Map map = new HashMap();
 
         //登录凭证不能为空
@@ -79,18 +82,18 @@ public class wxLoginController {
             //用户的唯一标识（openid）
             String openid = (String) json.get("openid");
 
-            //Map userInfo = new HashMap();
+            if(WX_Register.isOpenIdRegister(openid,map)){
+                logger.info("Login success!! session_key:"+session_key+"  ,openid"+openid);
 
-            map.put("status", 10000);
+            }else{
+                logger.info("Not Register session_key:"+session_key+"  ,openid"+openid);
+
+            }
+
             map.put("token", session_key);
-            map.put("msg", "login ok");
-
-            //
-            logger.info("Login success!! session_key:"+session_key+"  ,openid"+openid);
-
 
         }else{
-            map.put("status", 2);
+            map.put("status", 1);
             map.put("msg", "invalid code");
         }
 
