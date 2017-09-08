@@ -14,7 +14,7 @@ import java.util.Map;
 /**
  * Created by wjl198435 on 8/9/2017.
  */
-public interface IDAOVertex {
+public class IDAOVertex {
 
     public static final Logger LOGGER = LoggerFactory.getLogger(IDAOVertex.class);
 
@@ -34,11 +34,14 @@ public interface IDAOVertex {
         for (Object key : property.keySet()) {
             Object val = property.get(key);
 
-            if (val == null) {
-                LOGGER.warn("value is null:" + val);
+            if (val !=null) {
+                gt.property(key, val);
+
+            }else{
+                LOGGER.warn("value is null:"+key+":" + val);
             }
 
-            gt.property(key, val);
+
         }
         gt.next();
 
