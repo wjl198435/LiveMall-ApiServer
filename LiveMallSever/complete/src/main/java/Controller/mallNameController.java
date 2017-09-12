@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.concurrent.atomic.AtomicLong;
-import mallName.*;
+import MallName.*;
 
 @Controller
 @RequestMapping("/mall/config/get-value")
@@ -22,7 +22,7 @@ public class mallNameController {
 
     @RequestMapping(method=RequestMethod.GET)
     public @ResponseBody
-    mallName sayHello(@RequestParam(value="key", required=false, defaultValue="mallName") String KEY) {
+    mallName sayHello(@RequestParam(value="key", required=false, defaultValue= "MallName") String KEY) {
 
 
 

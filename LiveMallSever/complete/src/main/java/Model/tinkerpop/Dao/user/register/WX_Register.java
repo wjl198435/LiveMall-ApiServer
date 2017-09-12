@@ -66,6 +66,9 @@ public class WX_Register extends IDAOVertex {
             GraphTraversalSource g = GremlinWithRemote.getInstance();
             //g1.V().hasLabel('wxUser').has('openId','oxb8P0WuEFZtTFVCC2Dj06jOcc_M').id()
             l = (ArrayList) g.V().hasLabel(labVertexUser).has(getOpenId(), openId).id().toList();
+
+            LOGGER.info("isOpenIdRegister l:" + l.toString());
+
             if (l.isEmpty()) {
 
                 return res;
@@ -116,6 +119,7 @@ public class WX_Register extends IDAOVertex {
         res = true;
         return res;
     }
+
 
 
     public static void main(String[] args) {

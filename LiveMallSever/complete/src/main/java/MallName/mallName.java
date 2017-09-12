@@ -1,5 +1,4 @@
-package mallName;
-import com.alibaba.fastjson.JSONObject;
+package MallName;
 
 public class mallName {
 

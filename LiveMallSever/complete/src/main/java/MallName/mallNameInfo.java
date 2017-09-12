@@ -1,4 +1,4 @@
-package mallName;
+package MallName;
 
 /**
  * Created by wjl198435 on 31/8/2017.
